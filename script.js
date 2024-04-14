@@ -180,14 +180,14 @@ class Calculadora {
         this.memoria = 0;
     }
     teclaPi() {
-        if (this.estadoErro) return;
+        if (!this.ligado || this.estadoErro) return;
         this.nrVisor = Math.PI.toFixed(10); // Ajusta o número de casas decimais para 10
         this.ptDecimal = true;
         this.iniciouSegundo = false; // Marca como iniciado o segundo número para evitar concatenar ao valor de π
          // Permite adicionar casas decimais após π
     }
     teclaAOQUADRADO() {
-        if (this.estadoErro) return;
+        if (!this.ligado || this.estadoErro) return;
         let num = parseFloat(this.nrVisor);
         let resultado = num * num;
         this.nrVisor = String(resultado).slice(0, 10);
