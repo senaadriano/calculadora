@@ -15,7 +15,9 @@ class Calculadora {
             SUM: 4,
             RAIZ: 5,
             PORCEN: 6,
-            INVERSO: 7
+            INVERSO: 7,
+            PI:8,
+            AOQUADRADO:9
         };
         this.opAtual = this.op.NOP;
         this.ligado = true; // Adicionando variável de estado para ligado/desligado
@@ -80,9 +82,16 @@ class Calculadora {
             case '1/x':
                 this.opAtual = this.op.INVERSO;
                 break;
+            case 'π':
+                this.opAtual=this.op.PI;
+                 break;
+            case '^':
+              this.opAtual= this.op.AOQUADRADO;
+            break;
         }
         this.memTemp = this.nrVisor;
     }
+    
 
     // Executa operação: tecla IGUAL
     igual() {
@@ -121,6 +130,12 @@ class Calculadora {
             case this.op.INVERSO: // Adicionando o caso para o inverso
                 resultado = 1 / num2;
                 break;
+            case  this.op.PI:
+                resultado = Math.PI * num2;
+                break;
+           case this.op.AOQUADRADO:
+                resultado = num2 * num2;
+                break;  
 
         }
         this.opAtual = this.op.NOP;
@@ -164,6 +179,20 @@ class Calculadora {
         if (!this.ligado || this.estadoErro) return;
         this.memoria = 0;
     }
+    teclaPi() {
+        if (this.estadoErro) return;
+        this.nrVisor = Math.PI.toFixed(10); // Ajusta o número de casas decimais para 10
+        this.ptDecimal = true;
+        this.iniciouSegundo = false; // Marca como iniciado o segundo número para evitar concatenar ao valor de π
+         // Permite adicionar casas decimais após π
+    }
+    teclaAOQUADRADO() {
+        if (this.estadoErro) return;
+        let num = parseFloat(this.nrVisor);
+        let resultado = num * num;
+        this.nrVisor = String(resultado).slice(0, 10);
+    }
+    
     // Limpa todos os dados da calculadora
     limparDados() {
         this.nrVisor = '0';
@@ -174,8 +203,8 @@ class Calculadora {
         this.memoria = 0;
         this.opAtual = this.op.NOP;
     }
-// Alterna entre ligado e desligado
-ligarDesligar() {
+    // Alterna entre ligado e desligado
+    ligarDesligar() {
     this.ligado = !this.ligado;
         if (!this.ligado) {
             this.limparDados(); // Limpa todos os dados quando a calculadora for desligada
@@ -245,6 +274,15 @@ let teclaRM = () => {
 let teclaCLM = () => {
     calculadora.teclaCLM();
 }
+let teclaPi = () => {
+    calculadora.teclaPi();
+    atualizaVisor();
+}
+let teclaAOQUADRADO = () =>{
+    calculadora.teclaAOQUADRADO();
+    atualizaVisor;
+}
+
 
 // ========================================================
 //  INÍCIO DO PROCESSAMENTO
